@@ -1,0 +1,10 @@
+metrica,valor
+politica,fixo
+cenario,pedestres_ambulancia
+espera_media_pedestres_s,0.0
+fila_media_N_C,1.38
+fila_media_S_C,1.46
+fila_media_E_C,1.19
+fila_media_W_C,1.11
+ambulancia_ambulance_1_tempo_viagem_s,23
+ambulancia_ambulance_1_paradas,0
