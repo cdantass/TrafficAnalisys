@@ -1,0 +1,12 @@
+metrica,valor
+politica,adaptativo
+cenario,pedestres_ambulancia
+espera_media_pedestres_s,0.0
+conflitos_pedestre_veiculo,0
+trocas_fase_seguras,0
+fila_media_N_C,0.71
+fila_media_S_C,0.73
+fila_media_E_C,3.11
+fila_media_W_C,3.13
+ambulancia_ambulance_1_tempo_viagem_s,1
+ambulancia_ambulance_1_paradas,0

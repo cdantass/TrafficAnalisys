@@ -12,6 +12,7 @@ netconvert \
     --node-files=intersection.nod.xml \
     --edge-files=intersection.edg.xml \
     --type-files=intersection.typ.xml \
+    --connection-files=intersection.con.xml \
     --sidewalks.guess=true \
     --crossings.guess=true \
     --walkingareas=true \

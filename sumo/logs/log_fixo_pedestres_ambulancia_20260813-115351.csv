@@ -1,5 +1,5 @@
 metrica,valor
-politica,fixo
+politica,adaptativo
 cenario,pedestres_ambulancia
 espera_media_pedestres_s,15.35
 conflitos_pedestre_veiculo,0

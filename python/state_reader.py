@@ -23,10 +23,10 @@ PED_CROSSINGS = {
 }
 
 TURN_DIRECTION_BY_APPROACH = {
-    "N_C": {"straight": "C_S", "right": "C_W", "left": "C_E"},
-    "S_C": {"straight": "C_N", "right": "C_E", "left": "C_W"},
-    "E_C": {"straight": "C_W", "right": "C_N", "left": "C_S"},
-    "W_C": {"straight": "C_E", "right": "C_S", "left": "C_N"},
+    "N_C": {"straight": "C_S", "right": "C_W", "left": "C_E", "uturn": "C_N"},
+    "S_C": {"straight": "C_N", "right": "C_E", "left": "C_W", "uturn": "C_S"},
+    "E_C": {"straight": "C_W", "right": "C_N", "left": "C_S", "uturn": "C_E"},
+    "W_C": {"straight": "C_E", "right": "C_S", "left": "C_N", "uturn": "C_W"},
 }
 
 

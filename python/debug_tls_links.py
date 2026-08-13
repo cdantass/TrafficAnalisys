@@ -2,7 +2,7 @@ import os
 import sys
 
 # Ajuste este caminho para o SUMO na sua máquina
-SUMO_HOME = r"C:\Users\cdbarbosa\Downloads\sumo-win64-1.27.1\sumo-1.27.1"
+SUMO_HOME = r"D:\RESTO\sumo-1.27.1"
 tools = os.path.join(SUMO_HOME, "tools")
 sys.path.append(tools)
 

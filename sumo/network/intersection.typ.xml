@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Tipo de via urbana: 2 faixas por sentido, 50 km/h, com calçada
-  (sidewalkWidth > 0 faz o netconvert gerar a calçada nessa aresta).
--->
+
 <types>
+    <type id="urban3" numLanes="3" speed="13.89" priority="3" sidewalkWidth="2.5"/>
     <type id="urban2" numLanes="2" speed="13.89" priority="3" sidewalkWidth="2.5"/>
 </types>

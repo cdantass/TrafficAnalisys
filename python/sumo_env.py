@@ -20,9 +20,9 @@ def setup_traci_import(sumo_home_override: str = None) -> None:
         raise EnvironmentError(
             "Não encontrei o caminho do SUMO.\n\n"
             "Opção 1 (mais simples, não depende de variável de ambiente):\n"
-            "  python main.py --sumo-home \"C:\\caminho\\para\\sumo-1.27.1\"\n\n"
+            "  python main.py --sumo-home \"D:\RESTO\sumo-1.27.1\"\n\n"
             "Opção 2: definir SUMO_HOME nesta sessão do PowerShell antes de rodar:\n"
-            '  $env:SUMO_HOME = "C:\\caminho\\para\\sumo-1.27.1"\n'
+            '  $env:SUMO_HOME = "D:\RESTO\sumo-1.27.1"\n'
             "  python main.py"
         )
 
