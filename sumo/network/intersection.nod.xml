@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Rede de 1 cruzamento de 4 vias.
+  C = centro do cruzamento (semaforizado).
+  N/S/E/W = pontas das vias, a 200m do centro (dead ends / entradas-saídas da rede).
+-->
+<nodes>
+    <node id="C" x="0"   y="0"    type="traffic_light" tlType="static"/>
+    <node id="N" x="0"   y="200"  type="priority"/>
+    <node id="S" x="0"   y="-200" type="priority"/>
+    <node id="E" x="200" y="0"    type="priority"/>
+    <node id="W" x="-200" y="0"   type="priority"/>
+</nodes>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pedestres atravessando o cruzamento pelas faixas geradas automaticamente
+  pelo netconvert (opção crossings.guess). Cada personFlow caminha pela calçada
+  de uma aresta e atravessa para a aresta oposta.
+
+  Este arquivo representa o cenário "Pedestres" em intensidade ALTA
+  (conforme seção 2.4 da especificação). Para o cenário desligado/baixo,
+  o controlador Python pode simplesmente não incluir este arquivo na
+  simulação, ou reduzir personsPerHour.
+-->
+<routes>
+    <vType id="pedestrian" vClass="pedestrian" width="0.5" length="0.3" maxSpeed="1.4"/>
+
+    <personFlow id="peds_N" type="pedestrian" begin="0" end="3600" personsPerHour="180">
+        <walk edges="N_C C_S"/>
+    </personFlow>
+
+    <personFlow id="peds_S" type="pedestrian" begin="0" end="3600" personsPerHour="180">
+        <walk edges="S_C C_N"/>
+    </personFlow>
+
+    <personFlow id="peds_E" type="pedestrian" begin="0" end="3600" personsPerHour="180">
+        <walk edges="E_C C_W"/>
+    </personFlow>
+
+    <personFlow id="peds_W" type="pedestrian" begin="0" end="3600" personsPerHour="180">
+        <walk edges="W_C C_E"/>
+    </personFlow>
+</routes>

@@ -1,0 +1,45 @@
+{
+  "_comentario": "Parametros centrais do sistema. Nada aqui deve ficar hardcoded no codigo Python (etapa 2). Este arquivo ja pode ser versionado e ajustado conforme os experimentos do TCC.",
+
+  "sumo": {
+    "config_file": "config/simulation.sumocfg",
+    "gui": true,
+    "step_length_s": 1
+  },
+
+  "juncao": {
+    "id": "C"
+  },
+
+  "cenarios": {
+    "pedestres_ativo": true,
+    "ambulancia_ativa": true,
+    "intensidade_pedestres": "alta"
+  },
+
+  "politica_semaforo": {
+    "tipo": "fixo",
+    "_opcoes_validas": ["fixo", "adaptativo"],
+
+    "fixo": {
+      "duracao_verde_veiculos_s": 30,
+      "duracao_amarelo_s": 4,
+      "duracao_verde_pedestre_s": 20
+    },
+
+    "adaptativo": {
+      "espera_pedestre_extensao_gatilho_s": 15,
+      "extensao_verde_pedestre_s": 8,
+      "distancia_deteccao_ambulancia_m": 150,
+      "limite_fila_veiculos": 8,
+      "incremento_verde_fila_s": 10,
+      "verde_minimo_s": 10,
+      "verde_maximo_s": 60
+    }
+  },
+
+  "logs": {
+    "diretorio_saida": "logs/",
+    "formato": "csv"
+  }
+}

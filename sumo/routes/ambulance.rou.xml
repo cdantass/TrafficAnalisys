@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Ambulância: vClass="emergency" faz o SUMO tratá-la como veículo de
+  emergência (pode ultrapassar fila, ganha prioridade em alguns modelos
+  de junção). guiShape="emergency" só afeta a aparência no sumo-gui.
+
+  Por padrão ela entra em t=60s vindo do Oeste, atravessando até o Leste
+  (rota mais longa possível pelo cruzamento, para estressar o cenário).
+  O controlador Python (TraCI) é quem vai de fato detectar sua aproximação
+  e decidir abrir o verde antecipado — isso é lógica de controle, não da
+  rota em si.
+-->
+<routes>
+    <vType id="ambulance" vClass="emergency" guiShape="emergency"
+           length="6.0" minGap="2.5" maxSpeed="19.4"
+           accel="3.0" decel="6.0" sigma="0.0" speedFactor="1.3"
+           color="1,0,0"/>
+
+    <route id="amb_W_E" edges="W_C C_E"/>
+
+    <vehicle id="ambulance_1" type="ambulance" route="amb_W_E" depart="60" departSpeed="max"/>
+
+    <!-- Para testar múltiplas passagens de ambulância, duplicar o bloco
+         <vehicle> acima com id e depart diferentes. -->
+</routes>

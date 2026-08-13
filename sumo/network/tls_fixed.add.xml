@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Programa de semáforo FIXO para o cruzamento C.
+  4 fases: NS verde / NS amarelo / EW verde / EW amarelo, com o pedestre
+  liberado (letra 'G' minúscula não existe; pedestre usa G/r igual veículo,
+  mas em ligações de crossing) durante a fase perpendicular ao seu fluxo
+  de travessia. Ajustar duração das fases aqui é a versão "hardcoded";
+  o controlador Python usa TraCI para SOBRESCREVER essas durações em
+  tempo real conforme a política escolhida (ver config/config.json).
+
+  IMPORTANTE: o número e ordem exato dos links (a sequência de letras em
+  cada 'state') depende de como o netconvert organizou as conexões na
+  rede gerada. Depois de rodar build_network.sh, use:
+    netedit intersection.net.xml
+  ou
+    python "$SUMO_HOME/tools/tls_state.py" (ou inspecionar via sumo-gui)
+  para conferir o state real e ajustar as strings abaixo se necessário.
+  Este arquivo é um PONTO DE PARTIDA plausível, não o resultado final
+  garantido para a topologia exata gerada.
+-->
+<additional>
+    <tlLogic id="C" type="static" programID="fixed" offset="0">
+        <phase duration="30" state="GGrrGGrr"/>
+        <phase duration="4"  state="yyrryyrr"/>
+        <phase duration="30" state="rrGGrrGG"/>
+        <phase duration="4"  state="rryyrryy"/>
+    </tlLogic>
+</additional>

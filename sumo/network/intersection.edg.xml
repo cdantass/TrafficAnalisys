@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  8 arestas (ida e volta em cada uma das 4 direções), todas do tipo urban2
+  (2 faixas por sentido + calçada). O netconvert vai gerar as calçadas e,
+  com a opção crossings.guess do netconvert, as faixas de pedestre em cada abordagem do
+  cruzamento central C.
+-->
+<edges>
+    <edge id="N_C" from="N" to="C" type="urban2"/>
+    <edge id="C_N" from="C" to="N" type="urban2"/>
+
+    <edge id="S_C" from="S" to="C" type="urban2"/>
+    <edge id="C_S" from="C" to="S" type="urban2"/>
+
+    <edge id="E_C" from="E" to="C" type="urban2"/>
+    <edge id="C_E" from="C" to="E" type="urban2"/>
+
+    <edge id="W_C" from="W" to="C" type="urban2"/>
+    <edge id="C_W" from="C" to="W" type="urban2"/>
+</edges>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <input>
+        <net-file value="../network/intersection.net.xml"/>
+        <route-files value="../routes/vehicles.rou.xml,../routes/pedestrians.rou.xml,../routes/ambulance.rou.xml"/>
+        <!-- tls_fixed.add.xml removido: o programa de semáforo "fixo" agora é
+             o programa padrão gerado automaticamente pelo netconvert (tls.guess-signals),
+             e é o controlador Python (etapa 2) quem decide se aplica política
+             fixa ou adaptativa em cima dele via TraCI. Isso evita depender de
+             strings de estado escritas à mão, que variam conforme a topologia
+             exata gerada pelo netconvert. -->
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+        <step-length value="1"/>
+    </time>
+
+    <processing>
+        <pedestrian.model value="striping"/>
+        <time-to-teleport value="300"/>
+    </processing>
+
+    <report>
+        <verbose value="true"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+</configuration>
