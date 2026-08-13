@@ -8,6 +8,7 @@ import time
 
 import traci
 
+import state_reader
 from state_reader import get_all_queue_lengths, get_waiting_persons, get_ambulance_ids
 
 
@@ -30,6 +31,8 @@ class MetricsLogger:
         self.vehicle_stop_counts = {}   # vehicle_id -> nº paradas
 
         self.queue_samples = []         # lista de dicts {edge: tamanho} por passo
+        self.pedestrian_conflicts = 0
+        self.safe_phase_switches = 0
 
     def on_step(self, step: int):
         # filas
@@ -63,6 +66,25 @@ class MetricsLogger:
             if speed < 0.3:
                 # marca de forma simplificada: soma se acabou de parar
                 pass  # (mantido simples nesta etapa; refinamento fica para depois)
+
+        # segurança do TLS: marca conflito em que pedestre e veículo ficam verdes
+        # simultaneamente. A contagem é conservadora e serve como métrica para
+        # avaliar a política que evita estes casos.
+        tls_state = traci.trafficlight.getRedYellowGreenState(self.tls_id)
+        tls_links = state_reader.get_tls_link_map(self.tls_id)
+        pedestrian_green = {
+            idx for idx, ch in enumerate(tls_state)
+            if ch.lower() == "g" and idx in tls_links["pedestrian_links"]
+        }
+        vehicle_green = {
+            tls_links["vehicle_links"][idx]
+            for idx, ch in enumerate(tls_state)
+            if ch.lower() == "g" and idx in tls_links["vehicle_links"]
+        }
+        for idx in pedestrian_green:
+            crossing_id = tls_links["pedestrian_links"].get(idx)
+            if crossing_id and state_reader.get_pedestrian_conflicting_vehicle_links(crossing_id).intersection(vehicle_green):
+                self.pedestrian_conflicts += 1
 
         # veículos que saíram da simulação neste passo -> tempo de viagem
         for vid in traci.simulation.getArrivedIDList():
@@ -101,6 +123,8 @@ class MetricsLogger:
             "avg_pedestrian_wait_s": round(self._avg(self.pedestrian_wait_samples), 2),
             "avg_queue_by_edge": avg_queue_by_edge,
             "ambulances": ambulance_summaries,
+            "pedestrian_conflicts": self.pedestrian_conflicts,
+            "safe_phase_switches": self.safe_phase_switches,
         }
 
     def write_csv(self):
@@ -117,6 +141,8 @@ class MetricsLogger:
             writer.writerow(["politica", summary["policy"]])
             writer.writerow(["cenario", summary["scenario"]])
             writer.writerow(["espera_media_pedestres_s", summary["avg_pedestrian_wait_s"]])
+            writer.writerow(["conflitos_pedestre_veiculo", summary["pedestrian_conflicts"]])
+            writer.writerow(["trocas_fase_seguras", summary["safe_phase_switches"]])
             for edge, avg_queue in summary["avg_queue_by_edge"].items():
                 writer.writerow([f"fila_media_{edge}", round(avg_queue, 2)])
             for amb in summary["ambulances"]:

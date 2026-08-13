@@ -12,6 +12,79 @@ INCOMING_EDGES = ["N_C", "S_C", "E_C", "W_C"]
 # vClass usado pela ambulância no arquivo de rotas
 AMBULANCE_VCLASS = "emergency"
 
+# Mapeamento seguro dos crossings do TLS C para as abordagens veiculares
+# que cruzam aquela faixa. Em um cruzamento de 4 vias, cada faixa de pedestre
+# pode ter conflito com a via perpendicular ou com o eixo do mesmo sentido.
+PED_CROSSINGS = {
+    ":C_c0": {"N_C", "S_C"},
+    ":C_c1": {"E_C", "W_C"},
+    ":C_c2": {"S_C", "N_C"},
+    ":C_c3": {"W_C", "E_C"},
+}
+
+TURN_DIRECTION_BY_APPROACH = {
+    "N_C": {"straight": "C_S", "right": "C_W", "left": "C_E"},
+    "S_C": {"straight": "C_N", "right": "C_E", "left": "C_W"},
+    "E_C": {"straight": "C_W", "right": "C_N", "left": "C_S"},
+    "W_C": {"straight": "C_E", "right": "C_S", "left": "C_N"},
+}
+
+
+def get_vehicle_turn_type(link_tuple: tuple) -> str:
+    """Retorna 'straight', 'right' ou 'left' usando a abordagem e o sentido de saída."""
+    if len(link_tuple) < 2:
+        return "unknown"
+    in_lane, out_lane = link_tuple[0], link_tuple[1]
+    in_edge = traci.lane.getEdgeID(in_lane)
+    out_edge = traci.lane.getEdgeID(out_lane)
+    if in_edge not in TURN_DIRECTION_BY_APPROACH:
+        return "unknown"
+    for turn_type, expected_edge in TURN_DIRECTION_BY_APPROACH[in_edge].items():
+        if expected_edge == out_edge:
+            return turn_type
+    return "unknown"
+
+
+def get_tls_link_map(tls_id: str) -> dict:
+    """Mapeia índices do estado do TLS para links de veículo/pedestre."""
+    controlled_links = traci.trafficlight.getControlledLinks(tls_id)
+    vehicle_links = {}
+    pedestrian_links = {}
+    straight_links = {}
+    right_turn_links = {}
+    left_turn_links = {}
+    for idx, link_group in enumerate(controlled_links):
+        for link in link_group:
+            if not link:
+                continue
+            from_lane = link[0]
+            to_lane = link[1]
+            edge_id = traci.lane.getEdgeID(from_lane)
+            if edge_id.startswith(":C_c"):
+                pedestrian_links[idx] = edge_id
+            elif edge_id in INCOMING_EDGES:
+                vehicle_links[idx] = edge_id
+                turn_type = get_vehicle_turn_type((from_lane, to_lane))
+                if turn_type == "straight":
+                    straight_links[idx] = edge_id
+                elif turn_type == "right":
+                    right_turn_links[idx] = edge_id
+                elif turn_type == "left":
+                    left_turn_links[idx] = edge_id
+    return {
+        "vehicle_links": vehicle_links,
+        "pedestrian_links": pedestrian_links,
+        "straight_links": straight_links,
+        "right_turn_links": right_turn_links,
+        "left_turn_links": left_turn_links,
+        "conflicts": PED_CROSSINGS,
+    }
+
+
+def get_pedestrian_conflicting_vehicle_links(crossing_id: str) -> set:
+    """Retorna as abordagens veiculares que cruzam esse crossing."""
+    return set(PED_CROSSINGS.get(crossing_id, set()))
+
 
 def get_queue_length(edge_id: str, speed_threshold: float = 0.3) -> int:
     """Número de veículos parados (velocidade abaixo do limiar) numa aresta."""

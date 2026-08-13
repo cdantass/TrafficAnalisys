@@ -65,15 +65,16 @@ def parse_args():
 
 def main():
     args = parse_args()
-    config = load_config(args.config)
+    config_path = os.path.abspath(args.config)
+    config = load_config(config_path)
 
     policy_name = args.policy or config["politica_semaforo"]["tipo"]
     tls_id = config["juncao"]["id"]
     use_gui = config["sumo"]["gui"] and not args.no_gui
 
-    sumocfg_path = os.path.join("..", "sumo", "config", "simulation.sumocfg")
+    sumocfg_path = os.path.abspath(os.path.join("..", "sumo", "config", "simulation.sumocfg"))
     if not os.path.isfile(sumocfg_path):
-        sumocfg_path = os.path.join("..", config["sumo"]["config_file"])
+        sumocfg_path = os.path.abspath(os.path.join("..", config["sumo"]["config_file"]))
 
     sumo_binary = get_sumo_binary(gui=use_gui)
     sumo_cmd = [sumo_binary, "-c", sumocfg_path]
@@ -95,7 +96,7 @@ def main():
     policy = build_policy(policy_name, tls_id, config)
     policy.on_start()
 
-    output_dir = os.path.join("..", "sumo", config["logs"]["diretorio_saida"])
+    output_dir = os.path.abspath(os.path.join("..", "sumo", config["logs"]["diretorio_saida"]))
     logger = MetricsLogger(
         tls_id=tls_id,
         policy_name=policy_name,
