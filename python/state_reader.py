@@ -53,6 +53,7 @@ def get_tls_link_map(tls_id: str) -> dict:
     straight_links = {}
     right_turn_links = {}
     left_turn_links = {}
+    uturn_links = {}
     for idx, link_group in enumerate(controlled_links):
         for link in link_group:
             if not link:
@@ -71,12 +72,15 @@ def get_tls_link_map(tls_id: str) -> dict:
                     right_turn_links[idx] = edge_id
                 elif turn_type == "left":
                     left_turn_links[idx] = edge_id
+                elif turn_type == "uturn":
+                    uturn_links[idx] = edge_id
     return {
         "vehicle_links": vehicle_links,
         "pedestrian_links": pedestrian_links,
         "straight_links": straight_links,
         "right_turn_links": right_turn_links,
         "left_turn_links": left_turn_links,
+        "uturn_links": uturn_links,
         "conflicts": PED_CROSSINGS,
     }
 

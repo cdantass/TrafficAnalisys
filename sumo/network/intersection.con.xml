@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <connections>
     <!-- Norte (N_C) -->
+    <connection from="N_C" to="C_S" fromLane="1" toLane="1"/>
     <connection from="N_C" to="C_W" fromLane="1" toLane="1"/>
-    <connection from="N_C" to="C_S" fromLane="2" toLane="1"/>
-    <connection from="N_C" to="C_S" fromLane="3" toLane="2"/>
+    <connection from="N_C" to="C_S" fromLane="2" toLane="2"/>
+    <connection from="N_C" to="C_W" fromLane="2" toLane="2"/>
     <connection from="N_C" to="C_E" fromLane="3" toLane="2"/>
-    <connection from="N_C" to="C_N" fromLane="3" toLane="2"/>
+    <connection from="N_C" to="C_N" fromLane="3" toLane="3"/>
 
     <!-- Sul (S_C) -->
+    <connection from="S_C" to="C_N" fromLane="1" toLane="1"/>
     <connection from="S_C" to="C_E" fromLane="1" toLane="1"/>
-    <connection from="S_C" to="C_N" fromLane="2" toLane="1"/>
-    <connection from="S_C" to="C_N" fromLane="3" toLane="2"/>
+    <connection from="S_C" to="C_N" fromLane="2" toLane="2"/>
+    <connection from="S_C" to="C_E" fromLane="2" toLane="2"/>
     <connection from="S_C" to="C_W" fromLane="3" toLane="2"/>
-    <connection from="S_C" to="C_S" fromLane="3" toLane="2"/>
+    <connection from="S_C" to="C_S" fromLane="3" toLane="3"/>
 
     <!-- Leste (E_C): só reto, nas 2 faixas -->
     <connection from="E_C" to="C_W" fromLane="1" toLane="1"/>

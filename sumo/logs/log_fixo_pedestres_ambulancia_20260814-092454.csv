@@ -1,12 +1,12 @@
 metrica,valor
 politica,fixo
 cenario,pedestres_ambulancia
-espera_media_pedestres_s,18.22
+espera_media_pedestres_s,15.28
 conflitos_pedestre_veiculo,0
 trocas_fase_seguras,0
-fila_media_N_C,1.94
-fila_media_S_C,1.89
-fila_media_E_C,1.97
-fila_media_W_C,2.01
+fila_media_N_C,1.57
+fila_media_S_C,1.61
+fila_media_E_C,0.87
+fila_media_W_C,0.86
 ambulancia_ambulance_1_tempo_viagem_s,21
 ambulancia_ambulance_1_paradas,0
