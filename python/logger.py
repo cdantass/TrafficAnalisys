@@ -13,11 +13,13 @@ from state_reader import get_all_queue_lengths, get_waiting_persons, get_ambulan
 
 
 class MetricsLogger:
-    def __init__(self, tls_id: str, policy_name: str, scenario_label: str, output_dir: str):
+    def __init__(self, tls_id: str, policy_name: str, scenario_label: str, output_dir: str,
+                 seed: int = None):
         self.tls_id = tls_id
         self.policy_name = policy_name
         self.scenario_label = scenario_label
         self.output_dir = output_dir
+        self.seed = seed
 
         # acumuladores
         self.ambulance_stops = {}       # vehicle_id -> nº de vezes que parou
@@ -130,7 +132,8 @@ class MetricsLogger:
     def write_csv(self):
         os.makedirs(self.output_dir, exist_ok=True)
         timestamp = time.strftime("%Y%m%d-%H%M%S")
-        filename = f"log_{self.policy_name}_{self.scenario_label}_{timestamp}.csv"
+        seed_tag = f"_seed{self.seed}" if self.seed is not None else ""
+        filename = f"log_{self.policy_name}_{self.scenario_label}{seed_tag}_{timestamp}.csv"
         filepath = os.path.join(self.output_dir, filename)
 
         summary = self.summary()
@@ -140,6 +143,7 @@ class MetricsLogger:
             writer.writerow(["metrica", "valor"])
             writer.writerow(["politica", summary["policy"]])
             writer.writerow(["cenario", summary["scenario"]])
+            writer.writerow(["seed", self.seed if self.seed is not None else ""])
             writer.writerow(["espera_media_pedestres_s", summary["avg_pedestrian_wait_s"]])
             writer.writerow(["conflitos_pedestre_veiculo", summary["pedestrian_conflicts"]])
             writer.writerow(["trocas_fase_seguras", summary["safe_phase_switches"]])

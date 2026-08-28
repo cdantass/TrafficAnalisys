@@ -60,6 +60,17 @@ def parse_args():
         default=None,
         help="Caminho da instalação do SUMO (alternativa a definir SUMO_HOME no terminal)",
     )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help=(
+            "Semente aleatória para o SUMO (tráfego, ambulância, etc.). "
+            "Sem isso, a simulação é determinística e rodar duas vezes "
+            "gera sempre o mesmo resultado -- use seeds diferentes para "
+            "ter testes estatisticamente válidos."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -78,6 +89,14 @@ def main():
 
     sumo_binary = get_sumo_binary(gui=use_gui)
     sumo_cmd = [sumo_binary, "-c", sumocfg_path]
+    if args.seed is not None:
+        sumo_cmd += ["--seed", str(args.seed)]
+    else:
+        # Sem seed explícita, deixa o SUMO sortear uma (--random) em vez de
+        # usar sempre a mesma semente padrão -- assim, mesmo rodando sem
+        # --seed, cada execução varia (útil para checagens rápidas; para
+        # experimentos reproduzíveis do TCC, sempre passe --seed).
+        sumo_cmd += ["--random"]
 
     # rótulo do cenário ativo (usado no nome do arquivo de log)
     cenarios = config["cenarios"]
@@ -102,6 +121,7 @@ def main():
         policy_name=policy_name,
         scenario_label=scenario_label,
         output_dir=output_dir,
+        seed=args.seed,
     )
 
     step = 0
